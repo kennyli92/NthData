@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
+    url(r'^register', 'signup.views.register', name='Register'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
