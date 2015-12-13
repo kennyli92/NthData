@@ -5,6 +5,7 @@ Definition of urls for BigDataFrontEnd.
 from datetime import datetime
 from django.conf.urls import patterns, url
 from app.forms import BootstrapAuthenticationForm
+from django.contrib.auth import views as auth_views
 
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
