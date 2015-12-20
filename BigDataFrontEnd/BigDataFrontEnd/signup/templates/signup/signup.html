@@ -1,0 +1,19 @@
+﻿{% extends "signup/layout.html" %}
+
+{% block content %}
+
+<style>
+    #id_username{
+        margin-left: 100px;
+    }
+
+</style>
+
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}
+

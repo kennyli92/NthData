@@ -7,6 +7,7 @@ from django.conf.urls import patterns, url
 from app.forms import BootstrapAuthenticationForm
 from django.contrib.auth import views as auth_views
 
+
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
 # from django.contrib import admin
@@ -39,6 +40,7 @@ urlpatterns = patterns('',
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
     url(r'^register', 'signup.views.register', name='Register'),
+    #url(r'^register', Register.as_view(), name='register'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
