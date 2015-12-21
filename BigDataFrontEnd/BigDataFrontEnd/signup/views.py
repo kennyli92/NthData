@@ -37,3 +37,4 @@ def register_success(request):
     return render_to_response(
     'signup/profile.html',
     )
+
