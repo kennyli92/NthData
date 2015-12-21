@@ -15,6 +15,7 @@ class SignUpForm(forms.Form):
     last_name = forms.CharField(label='Last name', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}))
 
 
+
     def clean(self):
         errors = []
         if 'password' in self.cleaned_data and 'password2' in self.cleaned_data:
@@ -31,4 +32,32 @@ class SignUpForm(forms.Form):
         return self.cleaned_data
 
 
+
+    def clean_username(self):
+        data = self.cleaned_data['username']
+
+        try:
+            lUser = User.objects.get(username=data)
+
+        except lUser.DoesNotExist:
+            return data
+
+        raise forms.ValidationError("This username is not available.")
+        return data
+        
+        
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+
+        try:
+            lUser = User.objects.get(email=data)
+        except lUser.DoesNotExist:
+            return data
+
+        raise forms.ValidationError("This email has an account associated. Forgot Username or Password?")
+        #add page to recover username or password.
+        return data
+
+    
 
