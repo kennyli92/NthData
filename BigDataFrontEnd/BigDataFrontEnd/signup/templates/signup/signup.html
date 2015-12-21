@@ -2,18 +2,16 @@
 
 {% block content %}
 
-<style>
-    #id_username{
-        margin-left: 100px;
-    }
-
-</style>
-
-<form action="/your-name/" method="post">
-    {% csrf_token %}
-    {{ form.username }}
-    <input type="submit" value="Submit" />
-</form>
-
+<div class="row">
+    <div class="col-md-4"></div>
+   <div class="col-md-4">
+        <form action="/your-name/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br>
+        <input class="btn btn-success" type="submit" value="Sign up!" />
+        </form>
+    </div>
+</div>
 {% endblock %}
 
