@@ -1,6 +1,8 @@
 ﻿from signup.forms import SignUpForm
 from django.shortcuts import render
 from django.views.generic.edit import FormView
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 #def register(request):
 #    form = SignUpForm()
@@ -27,12 +29,16 @@ def register(request):
             lFirst_name,
             lLast_name
             )
-
             # redirect to a new URL:
-            return HttpResponseRedirect('signup/profile.html')
+            return HttpResponseRedirect('signup/success')
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SignUpForm()
 
     return render(request, 'signup/signup.html', {'form': form})
+
+def register_success(request):
+    return render_to_response(
+    'signup/profile.html',
+    )

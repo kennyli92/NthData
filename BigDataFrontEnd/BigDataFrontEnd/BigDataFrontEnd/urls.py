@@ -15,7 +15,7 @@ from signup.views import register
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'app.views.home', name='home'),
+    url(r'^$', 'app.views.home', name='home'),    
     url(r'^contact$', 'app.views.contact', name='contact'),
     url(r'^about', 'app.views.about', name='about'),
     url(r'^login/$',
@@ -40,6 +40,7 @@ urlpatterns = patterns('',
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
     url(r'^register', 'signup.views.register', name='Register'),
+     url(r'^register/success/$', 'signup.views.register_success', name='RegisterSuccess'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
