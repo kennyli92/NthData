@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 #def register(request):
 #    form = SignUpForm()
@@ -15,19 +16,13 @@ def register(request):
         form = SignUpForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            lUsername = form.cleaned_data['username']
-            lPassword = form.cleaned_data['password']
-            lEmail = form.cleaned_data['email']
-            lFirst_name = form.cleaned_data['first_name']
-            lLast_name = form.cleaned_data['last_name']
-
-            lUser = User.objects.create_user(
-            lUsername,
-            lPassword,
-            lEmail,
-            lFirst_name,
-            lLast_name
+            # process the data in form.cleaned_data as required           
+            user = User.objects.create_user(
+            username = form.cleaned_data['username'],
+            password = form.cleaned_data['password'],
+            email = form.cleaned_data['email'],
+            first_name = form.cleaned_data['first_name'],
+            last_name = form.cleaned_data['last_name']
             )
             # redirect to a new URL:
             return HttpResponseRedirect('signup/success')

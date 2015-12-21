@@ -40,7 +40,7 @@ urlpatterns = patterns('',
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
     url(r'^register', 'signup.views.register', name='Register'),
-     url(r'^register/success/$', 'signup.views.register_success', name='RegisterSuccess'),
+     url(r'^signup/success/$', 'signup.views.register_success', name='RegisterSuccess'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
