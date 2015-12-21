@@ -14,19 +14,20 @@ def register(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
+            lUsername = form.cleaned_data['username']
+            lPassword = form.cleaned_data['password']
+            lEmail = form.cleaned_data['email']
+            lFirst_name = form.cleaned_data['first_name']
+            lLast_name = form.cleaned_data['last_name']
 
-            user = User.objects.create_user(
-            username,
-            password,
-            email,
-            first_name,
-            last_name
+            lUser = User.objects.create_user(
+            lUsername,
+            lPassword,
+            lEmail,
+            lFirst_name,
+            lLast_name
             )
+
             # redirect to a new URL:
             return HttpResponseRedirect('signup/profile.html')
 
