@@ -39,9 +39,9 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
-    url(r'^account', 'signup.views.account', name='account'),
-     url(r'^signup/success/$', 'signup.views.register_success', name='registerSuccess'),
-
+    url(r'^account$', 'signup.views.account', name='account'),
+    url(r'^signup/success/$', 'signup.views.register_success', name='registerSuccess'),
+    url(r'^account/passwordrecovery/$', 'signup.views.password_reset', name='passwordrecovery'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
