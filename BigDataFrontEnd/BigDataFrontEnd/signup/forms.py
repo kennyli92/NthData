@@ -22,15 +22,14 @@ class SignUpForm(forms.Form):
             if self.cleaned_data['password'] != self.cleaned_data['password2']:
                 errors.append(_("The two password fields did not match."))
 
-        if 'email' in self.cleaned_data and 'password2' in self.cleaned_data:
-            if self.cleaned_data['email'] != self.cleaned_data['password2']:
-                errors.append(_("Email Test Error!"))
+        #if 'email' in self.cleaned_data and 'password2' in self.cleaned_data:
+        #    if self.cleaned_data['email'] != self.cleaned_data['password2']:
+        #        errors.append(_("Email Test Error!"))
 
         if errors:
             raise forms.ValidationError(errors)
 
         return self.cleaned_data
-
 
 
     def clean_username(self):
@@ -43,7 +42,6 @@ class SignUpForm(forms.Form):
 
         raise forms.ValidationError("This username is not available.")
         return data
-        
 
 
     def clean_email(self):
