@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 #    class Meta:
 #        model = User 
 #        fields = ['username', 'password', 'email', 'first_name', 'last_name']
-
 class SignUpForm(forms.Form):
     username = forms.CharField(label='Username', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}))
     password = forms.CharField(label='Password', label_suffix='',widget=forms.PasswordInput(attrs={'class':'form-control'}))

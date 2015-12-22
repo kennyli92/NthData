@@ -4,6 +4,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from  django.contrib.auth.forms import PasswordResetForm
 
 #def register(request):
 #    form = SignUpForm()
@@ -43,4 +44,8 @@ def register_success(request):
     return render_to_response(
     'signup/profile.html',
     )
+
+def password_reset(request):
+    form = PasswordResetForm()
+    return render(request, 'signup/passwordrecovery.html', {'form':form})
 
