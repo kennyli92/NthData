@@ -42,7 +42,7 @@ class SignUpForm(forms.Form):
 
         raise forms.ValidationError("This username is not available.")
         return data
-                
+
 
     def clean_email(self):
         data = self.cleaned_data['email']
