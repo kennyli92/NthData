@@ -22,9 +22,9 @@ class SignUpForm(forms.Form):
             if self.cleaned_data['password'] != self.cleaned_data['password2']:
                 errors.append(_("The two password fields did not match."))
 
-        if 'email' in self.cleaned_data and 'password2' in self.cleaned_data:
-            if self.cleaned_data['email'] != self.cleaned_data['password2']:
-                errors.append(_("Email Test Error!"))
+        #if 'email' in self.cleaned_data and 'password2' in self.cleaned_data:
+        #    if self.cleaned_data['email'] != self.cleaned_data['password2']:
+        #        errors.append(_("Email Test Error!"))
 
         if errors:
             raise forms.ValidationError(errors)
@@ -32,27 +32,24 @@ class SignUpForm(forms.Form):
         return self.cleaned_data
 
 
-
     def clean_username(self):
         data = self.cleaned_data['username']
 
         try:
-            lUser = User.objects.get(username=data)
-
-        except lUser.DoesNotExist:
+            User.objects.get(username=data)
+        except User.DoesNotExist:
             return data
 
         raise forms.ValidationError("This username is not available.")
         return data
-        
-        
+                
 
     def clean_email(self):
         data = self.cleaned_data['email']
 
         try:
-            lUser = User.objects.get(email=data)
-        except lUser.DoesNotExist:
+            User.objects.get(email=data)
+        except User.DoesNotExist:
             return data
 
         raise forms.ValidationError("This email has an account associated. Forgot Username or Password?")
