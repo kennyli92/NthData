@@ -6,6 +6,9 @@
     <div class="col-md-4"></div>
    <div class="col-md-4">
         <form action="" method="post"> 
+            <input class="btn btn-default" type="button" id="signupBtn" value="Sign-Up" />
+            <input class="btn btn-default" type="button" id="loginBtn" value="Login" />
+            <br />
             {% if form.non_field_errors %}                      
             <div style="color:#b94a48">
                 {{form.non_field_errors}}
@@ -22,9 +25,16 @@
             {{ field }}           
             {% endfor %}            
             <br>
-        <input class="btn btn-success" type="submit" value="Sign up!" />
+            <input class="btn btn-success" type="submit" value="Sign up!" />
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#signupBtn").click(function() {
+            $("#id_username").hide();
+        });
+    });
+</script>
 {% endblock %}
 
