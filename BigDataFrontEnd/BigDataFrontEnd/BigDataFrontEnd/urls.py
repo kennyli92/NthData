@@ -6,7 +6,7 @@ from datetime import datetime
 from django.conf.urls import patterns, url
 from app.forms import BootstrapAuthenticationForm
 from django.contrib.auth import views as auth_views
-from signup.views import register
+from signup.views import account
 
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
@@ -39,7 +39,7 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
-    url(r'^register', 'signup.views.register', name='register'),
+    url(r'^account', 'signup.views.account', name='account'),
      url(r'^signup/success/$', 'signup.views.register_success', name='registerSuccess'),
 
     # Uncomment the admin/doc line below to enable admin documentation:

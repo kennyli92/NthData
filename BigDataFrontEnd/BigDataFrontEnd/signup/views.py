@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 #    form = SignUpForm()
 #    return render(request, 'signup/signup.html', {'form': form})
 
-def register(request):
+def account(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -27,7 +27,7 @@ def register(request):
 
             
             # add to 'user' group
-            group = Group.objects.get_or_create(name='user')
+            group = Group.objects.get(name='user')
             user.groups.add(group)
 
             # redirect to a new URL:
