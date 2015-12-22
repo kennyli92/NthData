@@ -37,22 +37,21 @@ class SignUpForm(forms.Form):
         data = self.cleaned_data['username']
 
         try:
-            lUser = User.objects.get(username=data)
-
-        except lUser.DoesNotExist:
+            User.objects.get(username=data)
+        except User.DoesNotExist:
             return data
 
         raise forms.ValidationError("This username is not available.")
         return data
         
-        
+
 
     def clean_email(self):
         data = self.cleaned_data['email']
 
         try:
-            lUser = User.objects.get(email=data)
-        except lUser.DoesNotExist:
+            User.objects.get(email=data)
+        except User.DoesNotExist:
             return data
 
         raise forms.ValidationError("This email has an account associated. Forgot Username or Password?")
