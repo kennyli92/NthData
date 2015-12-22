@@ -1,7 +1,7 @@
 ﻿from signup.forms import SignUpForm
 from django.shortcuts import render
 from django.views.generic.edit import FormView
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 
@@ -24,6 +24,12 @@ def register(request):
             first_name = form.cleaned_data['first_name'],
             last_name = form.cleaned_data['last_name']
             )
+
+            
+            # add to 'user' group
+            group = Group.objects.get_or_create(name='user')
+            user.groups.add(group)
+
             # redirect to a new URL:
             return HttpResponseRedirect('signup/success')
 
