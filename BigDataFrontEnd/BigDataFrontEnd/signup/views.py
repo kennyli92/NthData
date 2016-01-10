@@ -7,6 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth import authenticate
+from  django.contrib.auth.views import password_reset, password_reset_confirm
+from django.core.urlresolvers import reverse
+
 
 #def register(request):
 #    form = SignUpForm()
@@ -64,7 +67,13 @@ def register_success(request):
     'signup/profile.html',
     )
 
-def password_reset(request):
-    form = PasswordResetForm()
-    return render(request, 'signup/passwordrecovery.html', {'form':form})
-
+def password_recover(request):
+    return password_reset(request, template_name='recovery/passwordrecovery.html', email_template_name='recovery/password_reset_email.html',
+                          subject_template_name='recovery/password_reset_subject.txt', post_reset_redirect=reverse('password_recover_email_sent'))
+def reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='recovery/passwordrecovery.html',
+        uidb64=uidb64, token=token, post_reset_redirect='signup/signup.html')
+def password_recover_email_sent(request):
+     return render_to_response(
+    'recovery/email_sent.html',
+    )
