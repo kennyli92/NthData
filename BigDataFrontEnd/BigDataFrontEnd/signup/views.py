@@ -70,9 +70,11 @@ def register_success(request):
 def password_recover(request):
     return password_reset(request, template_name='recovery/passwordrecovery.html', email_template_name='recovery/password_reset_email.html',
                           subject_template_name='recovery/password_reset_subject.txt', post_reset_redirect=reverse('password_recover_email_sent'))
+
 def reset_confirm(request, uidb64=None, token=None):
     return password_reset_confirm(request, template_name='recovery/passwordrecovery.html',
-        uidb64=uidb64, token=token, post_reset_redirect='signup/signup.html')
+        uidb64=uidb64, token=token, post_reset_redirect=reverse('account'))
+
 def password_recover_email_sent(request):
      return render_to_response(
     'recovery/email_sent.html',
