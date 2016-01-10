@@ -181,3 +181,9 @@ LOGGING = {
 
 # Specify the default test runner.
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# Custom Authentication
+AUTHENTICATION_BACKENDS = ( 
+    'signup.backends.EmailOrUsernameLogin',
+    'django.contrib.auth.backends.ModelBackend'
+)

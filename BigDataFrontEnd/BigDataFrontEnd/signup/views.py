@@ -1,18 +1,20 @@
-﻿from signup.forms import SignUpForm
+﻿from signup.forms import SignUpForm, LoginForm
+from signup.backends import EmailOrUsernameLogin
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.contrib.auth.models import User, Group
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
-from  django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth import authenticate
 
 #def register(request):
 #    form = SignUpForm()
 #    return render(request, 'signup/signup.html', {'form': form})
 
 def account(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
+    # if this is a POST request we need to process the sign up form data
+    if (request.method == 'POST') and ('signup' in request.POST):
         # create a form instance and populate it with data from the request:
         form = SignUpForm(request.POST)
         # check whether it's valid:
@@ -34,11 +36,28 @@ def account(request):
             # redirect to a new URL:
             return HttpResponseRedirect('signup/success')
 
+    # if this is a POST request we need to process the login form data
+    elif (request.method == 'POST') and ('login' in request.POST):
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            #authenticate user
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                return HttpResponseRedirect('signup/success')
+            else:
+                return HttpResponse("No user of this username is found.")
+
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = SignUpForm()
+        signUpForm = SignUpForm()
+        loginForm = LoginForm()
 
-    return render(request, 'signup/signup.html', {'form': form})
+    return render(request, 'signup/signup.html', {'signupform': signUpForm, 'loginform': loginForm})
 
 def register_success(request):
     return render_to_response(

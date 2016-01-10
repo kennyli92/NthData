@@ -30,7 +30,7 @@ class SignUpForm(forms.Form):
 
         return self.cleaned_data
 
-
+    #checks to see if username is available
     def clean_username(self):
         data = self.cleaned_data['username']
 
@@ -42,7 +42,7 @@ class SignUpForm(forms.Form):
         raise forms.ValidationError("This username is not available.")
         return data
 
-
+    #checks to see if this email has been registered in the system
     def clean_email(self):
         data = self.cleaned_data['email']
 
@@ -55,5 +55,23 @@ class SignUpForm(forms.Form):
         #add page to recover username or password.
         return data
 
-    
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Username', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label='Password', label_suffix='',widget=forms.PasswordInput(attrs={'class':'form-control'}))
 
+    #checks to see if user exists for email/username
+    def clean_username(self):
+        data = self.cleaned_data['username']
+
+        if '@' in data:
+            kwargs = {'email': data}
+        else:
+            kwargs = {'username': data}
+
+        try:
+            User.objects.get(**kwargs)
+        except User.DoesNotExist:
+            raise forms.ValidationError("No user of this username is found.")
+            return data
+
+        return data
