@@ -57,10 +57,10 @@ def account(request):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        signUpForm = SignUpForm()
+        signupForm = SignUpForm()
         loginForm = LoginForm()
 
-    return render(request, 'signup/signup.html', {'signupform': signUpForm, 'loginform': loginForm})
+    return render(request, 'signup/signup.html', {'signupform': signupForm, 'loginform': loginForm})
 
 def register_success(request):
     return render_to_response(
