@@ -15,7 +15,8 @@ from django.core.urlresolvers import reverse
 #    form = SignUpForm()
 #    return render(request, 'signup/signup.html', {'form': form})
 
-def account(request):
+
+def signup(request):
     # if this is a POST request we need to process the sign up form data
     if (request.method == 'POST') and ('signup' in request.POST):
         # create a form instance and populate it with data from the request:
@@ -30,7 +31,6 @@ def account(request):
             first_name = form.cleaned_data['first_name'],
             last_name = form.cleaned_data['last_name']
             )
-
             
             # add to 'user' group
             group = Group.objects.get(name='user')
@@ -39,8 +39,15 @@ def account(request):
             # redirect to a new URL:
             return HttpResponseRedirect('signup/success')
 
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SignUpForm()
+    
+    return render(request, 'signup/signup.html', {'form': form})
+
+def login(request):
     # if this is a POST request we need to process the login form data
-    elif (request.method == 'POST') and ('login' in request.POST):
+    if (request.method == 'POST') and ('login' in request.POST):
         form = LoginForm(request.POST)
 
         if form.is_valid():
@@ -54,13 +61,15 @@ def account(request):
                 return HttpResponseRedirect('signup/success')
             else:
                 return HttpResponse("No user of this username is found.")
+    elif(request.method == 'POST') and ('signuppage' in request.POST):
+        return HttpResponseRedirect('signup')
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        signupForm = SignUpForm()
-        loginForm = LoginForm()
+        form = LoginForm()
+    
+    return render(request, 'login/login.html', {'form': form})
 
-    return render(request, 'signup/signup.html', {'signupform': signupForm, 'loginform': loginForm})
 
 def register_success(request):
     return render_to_response(
@@ -69,13 +78,13 @@ def register_success(request):
 
 def password_recover(request):
     return password_reset(request, template_name='recovery/passwordrecovery.html', email_template_name='recovery/password_reset_email.html',
-                          subject_template_name='recovery/password_reset_subject.txt', post_reset_redirect=reverse('password_recover_email_sent'))
+                            subject_template_name='recovery/password_reset_subject.txt', post_reset_redirect=reverse('password_recover_email_sent'))
 
 def reset_confirm(request, uidb64=None, token=None):
     return password_reset_confirm(request, template_name='recovery/passwordrecovery.html',
         uidb64=uidb64, token=token, post_reset_redirect=reverse('account'))
 
 def password_recover_email_sent(request):
-     return render_to_response(
+        return render_to_response(
     'recovery/email_sent.html',
     )

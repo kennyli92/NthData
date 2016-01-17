@@ -40,3 +40,10 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.divider{
+    width:20px;
+    height:auto;
+    display:inline-block;
+    min-height:1px;
+}
