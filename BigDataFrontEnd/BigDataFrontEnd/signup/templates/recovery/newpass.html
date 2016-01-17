@@ -18,7 +18,7 @@
          {% for field in form %}
             <fieldset class="form-group">
             <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>        
-            <input type="email" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}">               
+            <input type="password" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}">               
             </fieldset>
               {% if field.errors %}
             <div style="color:#b94a48">
@@ -37,6 +37,7 @@
     $(document).ready(function() {
       // Initialize the plugin
       $('#my_popup').popup();
+
     });
   </script>
 <script>

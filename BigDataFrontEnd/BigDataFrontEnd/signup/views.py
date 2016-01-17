@@ -72,7 +72,7 @@ def password_recover(request):
                           subject_template_name='recovery/password_reset_subject.txt', post_reset_redirect=reverse('password_recover_email_sent'))
 
 def reset_confirm(request, uidb64=None, token=None):
-    return password_reset_confirm(request, template_name='recovery/passwordrecovery.html',
+    return password_reset_confirm(request, template_name='recovery/newpass.html',
         uidb64=uidb64, token=token, post_reset_redirect=reverse('account'))
 
 def password_recover_email_sent(request):
