@@ -36,6 +36,8 @@ urlpatterns = patterns('',
             'next_page': '/',
         },
         name='logout'),
+
+    #signup
     url(r'^accounts/login/$', 
         auth_views.login, 
         {'template_name': 'signup/login.html'}),
@@ -46,6 +48,13 @@ urlpatterns = patterns('',
     url(r'^account/passwordrecovery/emailsent/$', 'signup.views.password_recover_email_sent', name='password_recover_email_sent'),
     url(r'^account/passwordrecovery/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
             'signup.views.reset_confirm', name='reset_confirm'),
+
+    #clientprofile
+
+
+
+
+
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
