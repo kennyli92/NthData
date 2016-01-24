@@ -49,6 +49,12 @@ urlpatterns = patterns('',
     url(r'^account/passwordrecovery/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
             'signup.views.reset_confirm', name='reset_confirm'),
 
+
+
+    #userprofile
+
+
+
     #clientprofile
 
 
