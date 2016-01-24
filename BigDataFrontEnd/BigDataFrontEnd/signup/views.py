@@ -82,7 +82,7 @@ def password_recover(request):
 
 def reset_confirm(request, uidb64=None, token=None):
     return password_reset_confirm(request, template_name='recovery/newpass.html',
-        uidb64=uidb64, token=token, post_reset_redirect=reverse('account'))
+        uidb64=uidb64, token=token, post_reset_redirect=reverse('login'))
 
 def password_recover_email_sent(request):
         return render_to_response(
