@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth import authenticate
-from  django.contrib.auth.views import password_reset, password_reset_confirm
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
 
 
