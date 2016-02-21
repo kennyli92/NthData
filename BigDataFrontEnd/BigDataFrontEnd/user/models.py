@@ -2,10 +2,11 @@
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from language.models import Language
 
 class UserProfile(models.Model):
     # This field is required.
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Other fields here
     email2 = models.EmailField()
@@ -13,12 +14,24 @@ class UserProfile(models.Model):
     isProvider = models.BooleanField(default=False)
     isClient = models.BooleanField(default=False)
 
-#class Location(models.Model):
-#    # This field is required.
-#    user = models.OneToOneField(User)
+class Feedback(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-#    # Other fields here
-#    language = models.CharField(
+    # Other fields here
+    language_Id = models.ForeignKey(Language)
+    feedback = models.CharField(max_length=400)
+    rate = models.IntegerField()
+    bkgd = models.CharField(max_length=1)
+
+class RateAgg(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # Other fields here
+    ProviderRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
+    ClientRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
+
 
 def assure_user_profile_exists(pk):
     
