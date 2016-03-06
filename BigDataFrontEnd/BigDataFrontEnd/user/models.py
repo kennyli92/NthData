@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from language.models import Language
 
+# user app
+
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -19,7 +21,7 @@ class Feedback(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Other fields here
-    language_Id = models.ForeignKey(Language)
+    language = models.ForeignKey(Language)
     feedback = models.CharField(max_length=400)
     rate = models.IntegerField()
     bkgd = models.CharField(max_length=1)

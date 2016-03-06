@@ -1,6 +1,8 @@
 ﻿from django.db import models
 from django.contrib.auth.models import User
 
+# language app
+
 class LanguageDef(models.Model):
     # Other fields here
     languageName = models.CharField(max_length=20)
@@ -11,7 +13,7 @@ class Language(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Gets language string from LanguageDef table
-    language = models.ForeignKey(LanguageDef)
+    languageDef = models.ForeignKey(LanguageDef)
 
 class LangTranslation(models.Model):
     # Other fields here
