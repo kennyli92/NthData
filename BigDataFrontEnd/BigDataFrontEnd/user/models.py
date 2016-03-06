@@ -34,6 +34,10 @@ class RateAgg(models.Model):
     ProviderRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
     ClientRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
 
+class Title(models.Model):
+    title = models.CharField(max_length=50)
+    bkgd = models.CharField(max_length=1)
+
 
 def assure_user_profile_exists(pk):
     
