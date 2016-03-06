@@ -2,10 +2,11 @@
 
 {% block content %}
 {% load staticfiles %}
-<h1>Hi, this is the provider profile page!</h1>
 
 <div class="row">
-   <div class="col-md-6">
+   <div class="col-md-4"></div>
+   <div class="col-md-5">
+       <h2>Provider Profile</h2>
      <div id="my_popup">
         <img style="width: 125px; height: 125px;" src="{% static "ajax_loader_blue_512.gif" %}" />
     </div>
@@ -18,7 +19,21 @@
          {% csrf_token %} 
          {% for field in form %}
             <fieldset class="form-group">
-            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                {% if field.name == 'language1' %}
+                 <label class="control-label" for="id_{{ field.name }}">Language 1:</label>
+                {% elif field.name == 'language2' %}
+                 <label class="control-label" for="id_{{ field.name }}">Language 2:</label>
+                {% elif field.name == 'language3' %}
+                <label class="control-label" for="id_{{ field.name }}">Language 3:</label>
+                {% elif field.name == 'categories1' %}
+                <label class="control-label" for="id_{{ field.name }}">Category 1:</label>
+                 {% elif field.name == 'categories2' %}
+                <label class="control-label" for="id_{{ field.name }}">Category 2:</label>
+                 {% elif field.name == 'categories3' %}
+                <label class="control-label" for="id_{{ field.name }}">Category 3:</label>
+                {% else %}
+                 <label class="control-label" for="id_{{ field.name }}">{{ field.label }}:</label>
+                {% endif %}          
                 {% if field.name == 'title' %}        
             <input type="text" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"> 
                 {% endif %}      
@@ -28,7 +43,56 @@
                             <option value="{{ id }}">{{ name }}</option>                            
                         {% endfor %}                   
                     </select>
-                {% endif %}            
+                {% endif %}
+                {% if field.name == 'language1' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.language1.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %} 
+                {% if field.name == 'language2' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.language2.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %}
+                {% if field.name == 'language3' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.language3.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %}  
+                  {% if field.name == 'categories1' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.categories1.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %}
+                  {% if field.name == 'categories2' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.categories2.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %}
+                  {% if field.name == 'categories3' %}        
+                    <select id="id_{{field.name}}" name="{{ field.name }}">
+                        {% for id, name in form.fields.categories3.choices %}
+                            <option value="{{ id }}">{{ name }}</option>                            
+                        {% endfor %}                   
+                    </select>
+                {% endif %}
+            {% if field.name == 'summary' %}        
+            <textarea type="text" rows="3" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"></textarea>
+            {% endif %}                 
+            {% if field.name == 'skillsets' %}        
+            <input type="text" placeholder="Separate skills by commas!" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"> 
+            {% endif %}  
+                                                    
             </fieldset>
               {% if field.errors %}
             <div style="color:#b94a48">
@@ -36,7 +100,7 @@
             </div>    
              {% endif %} 
         {% endfor %}        
-        <input class="btn btn-default" type="submit" value="Go" />
+        <input class="btn btn-default" type="submit" value="Submit" />
         </form>
     </div>
 </div>
