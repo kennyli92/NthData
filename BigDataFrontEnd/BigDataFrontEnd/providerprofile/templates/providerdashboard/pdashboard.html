@@ -1,0 +1,171 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+{% load staticfiles %}
+</script> <script src="{% static "app/scripts/highcharts.js" %}"></script>
+
+
+<h3> Provider Dashboard </h3>
+<div class="container"> 
+<div class="col-md-7">
+  <div class="panel panel-default">
+  <div class="panel-heading"> <b>Requests </b></div>
+  <div class="panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Category</th>
+                <th>Request Summary</th>
+            </tr>
+        </thead>
+        <tr> 
+            <td>Microsoft</td>
+            <td>Data Science</td>
+            <td>Hi, we need a consultant for our data architect. Please give us a call.</td>
+        </tr>
+        <tr> 
+            <td>Code 42</td>
+            <td>Web Development</td>
+            <td>Hi, we need a special visualization. Please give us a call.</td>
+        </tr>
+    </table>
+  </div>
+</div>  
+</div>
+
+    <div class="col-md-5">
+        <div class="panel panel-default">
+  <div class="panel-heading"> <b> Reviews</b></div>
+  <div class="panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+        </thead>
+        <tr> 
+            <td>Microsoft</td>
+            <td>5 stars</td>
+            <td>Kenny was excellent!</td>
+        </tr>
+        <tr> 
+            <td>Code 42</td>
+            <td>5 stars</td>
+            <td>Kenny is super good!</td>
+        </tr>
+    </table>
+  </div>
+</div> 
+</div>
+</div>
+
+<div class="container">
+    <div class="col-md-7">
+         <div class="panel panel-default">
+            <div class="panel-heading"><b> Requests over Time </b></div>
+                <div class="panel-body">
+                    <div id="chart_container" style="width:100%; height:300px;"></div>
+                </div>
+          </div>         
+    </div>
+    
+    <div class="col-md-5">
+         <div class="panel panel-default">
+            <div class="panel-heading"><b>Recommended by Client </b></div>
+                <div class="panel-body">
+                    <div id="pie" style="width:100%; height:300px;"></div>
+                </div>
+          </div>         
+    </div>  
+</div>
+
+<!--javascript for charts
+-->
+<script>
+$(function () {
+    $('#chart_container').highcharts({
+        title: {
+            text: 'Monthly Requests',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Requests'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' Request(s)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Requests',
+            data: [7, 6, 9, 14, 18, 21, 25, 26, 23, 18, 13, 5]
+        }]
+    });
+});
+
+//Pie chart
+$(function () {
+    $('#pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Recommendation',
+            colorByPoint: true,
+            data: [{
+                name: 'Yes',
+                y: 90
+            }, {
+                name: 'No',
+                y: 10
+
+            }]          
+        }]
+    });
+});
+</script>
+</body>
+</html>
+
+
+{% endblock %}

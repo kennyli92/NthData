@@ -6,6 +6,10 @@ def provider_profile(request):
 
     return render(request, 'providerprofile/providerprofile.html', {'form': form})   
 
-      
+def provider_dashboard(request):
+
+     return render(request, 'providerdashboard/pdashboard.html')
+    
+          
     
 
