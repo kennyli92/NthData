@@ -48,8 +48,8 @@ urlpatterns = patterns('',
     url(r'^account/passwordrecovery/emailsent/$', 'signup.views.password_recover_email_sent', name='password_recover_email_sent'),
     url(r'^account/passwordrecovery/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
             'signup.views.reset_confirm', name='reset_confirm'),
-    url(r'^provider/profile/$', 'providerprofile.views.provider_profile', name='providerprofile')
-
+    url(r'^provider/profile/$', 'providerprofile.views.provider_profile', name='providerprofile'),
+    url(r'^provider/dashboard/$', 'providerprofile.views.provider_dashboard', name='providerdashboard')
 
 
     #userprofile
