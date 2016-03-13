@@ -157,7 +157,6 @@ INSTALLED_APPS = (
     'clientprofile',
     'providerprofile',
     'user',
-    'language',
     'location',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
