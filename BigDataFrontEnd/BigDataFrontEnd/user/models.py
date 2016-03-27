@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Other fields here
-    email2 = models.EmailField()
+    email2 = models.EmailField(blank=True, null=True)
     isProvider = models.BooleanField(default=False)
     isClient = models.BooleanField(default=False)
 
@@ -18,8 +18,8 @@ class UserProfileTr(models.Model):
     userProfile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     languageCode = models.CharField(max_length=2)
-    bioC = models.CharField(max_length=400)
-    bioP = models.CharField(max_length=400)
+    bioC = models.CharField(max_length=400, blank=True, null=True)
+    bioP = models.CharField(max_length=400, blank=True, null=True)
 
 class RateAgg(models.Model):
     # This field is required.
@@ -59,7 +59,7 @@ class Provider(models.Model):
 
     category = models.ForeignKey(Category)
     skill = models.ForeignKey(Skill)
-    undefinedSkill = models.ForeignKey(UndefinedSkill)
+    undefinedSkill = models.ForeignKey(UndefinedSkill, blank=True, null=True)
 
 # -------- end providerprofile --------
 
@@ -72,27 +72,27 @@ class OrganizationTr(models.Model):
 
     languageCode = models.CharField(max_length=2)
     name = models.CharField(max_length=50)
-    companyStmt = models.CharField(max_length=400)
+    companyStmt = models.CharField(max_length=400, blank=True, null=True)
 
 class Client(models.Model):
     # This field is required.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Other fields here
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, blank=True, null=True)
     category = models.ForeignKey(Category)
 
 # -------- end clientprofile tables --------
 
 class Title(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, blank=True, null=True)
 
 class TitleTr(models.Model):
     title = models.ForeignKey(Title, on_delete=models.CASCADE)
 
     languageCode = models.CharField(max_length=2)
-    titleName = models.CharField(max_length=50)
+    titleName = models.CharField(max_length=50, blank=True, null=True)
 
 #no translation table is needed since client-provider will communicate via one language
 class Feedback(models.Model):
@@ -103,7 +103,7 @@ class Feedback(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     languageCode = models.CharField(max_length=2)
-    feedback = models.CharField(max_length=400)
+    feedback = models.CharField(max_length=400, blank=True, null=True)
     rate = models.IntegerField()
 
 def assure_user_profile_exists(pk):

@@ -31,5 +31,5 @@ class Location(models.Model):
 
     # Other fields here
     timeZone = models.CharField(max_length=100, blank=True, null=True)
-    adminDiv = models.ForeignKey(AdminDiv)
+    adminDiv = models.ForeignKey(AdminDiv, blank=True, null=True)
     country = models.ForeignKey(Country)
