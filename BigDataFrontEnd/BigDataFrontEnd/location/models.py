@@ -6,24 +6,23 @@ import pytz
 # location app
 
 #TIMEZONES = pytz.common_timezones_set
-
-class AdminDiv(models.Model):
-    pass
-
-class Country(models.Model):
-    pass
-
 class AdminDivDef(models.Model):
-    adminDiv = models.ForeignKey(AdminDiv)
-
-    languageCode = models.CharField(max_length=2)
-    adminDivDef = models.CharField(max_length=50)
+    pass
 
 class CountryDef(models.Model):
-    country = models.ForeignKey(Country)
+    pass
+
+class AdminDivDefTr(models.Model):
+    adminDivDef = models.ForeignKey(AdminDivDef)
 
     languageCode = models.CharField(max_length=2)
-    countryDef = models.CharField(max_length=50)
+    adminDiv = models.CharField(max_length=50)
+
+class CountryDefTr(models.Model):
+    countryDef = models.ForeignKey(CountryDef)
+
+    languageCode = models.CharField(max_length=2)
+    country = models.CharField(max_length=50)
 
 class Location(models.Model):
     # This field is required.
@@ -31,5 +30,5 @@ class Location(models.Model):
 
     # Other fields here
     timeZone = models.CharField(max_length=100, blank=True, null=True)
-    adminDiv = models.ForeignKey(AdminDiv, blank=True, null=True)
-    country = models.ForeignKey(Country)
+    adminDivDef = models.ForeignKey(AdminDivDef, blank=True, null=True)
+    countryDef = models.ForeignKey(CountryDef, blank=True, null=True)

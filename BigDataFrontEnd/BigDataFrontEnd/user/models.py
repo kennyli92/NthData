@@ -29,43 +29,10 @@ class RateAgg(models.Model):
     ProviderRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
     ClientRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
 
-class Category(models.Model):
-    pass
-
-class CategoryDef(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-    languageCode = models.CharField(max_length=2)
-    categoryName = models.CharField(max_length=50)
-
-# -------- providerprofile tables (placed in user.models due to circular dependencies, can't compile otherwise) --------
-class Skill(models.Model):
-    pass
-
-class SkillDef(models.Model):
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
-
-    languageCode = models.CharField(max_length=2)
-    skillName = models.CharField(max_length=50)
-
-#temp table. Create new standard skill name for Skill table.
-class UndefinedSkill(models.Model):
-    languageCode = models.CharField(max_length=2)
-    undefinedSkill = models.CharField(max_length=50)
-
-class Provider(models.Model):
-    # This field is required.
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    category = models.ForeignKey(Category)
-    skill = models.ForeignKey(Skill)
-    undefinedSkill = models.ForeignKey(UndefinedSkill, blank=True, null=True)
-
-# -------- end providerprofile --------
-
 # -------- clientprofile tables (placed in user.models due to circular dependencies, can't compile otherwise) --------
+
 class Organization(models.Model):
-    memberCnt = models.IntegerField()
+    memberCnt = models.IntegerField(default=1)
 
 class OrganizationTr(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -80,9 +47,52 @@ class Client(models.Model):
 
     # Other fields here
     organization = models.ForeignKey(Organization, blank=True, null=True)
-    category = models.ForeignKey(Category)
 
 # -------- end clientprofile tables --------
+
+# -------- providerprofile tables (placed in user.models due to circular dependencies, can't compile otherwise) --------
+class Provider(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+class SkillDef(models.Model):
+    pass
+
+class SkillDefTr(models.Model):
+    skillDef = models.ForeignKey(SkillDef, on_delete=models.CASCADE)
+
+    languageCode = models.CharField(max_length=2)
+    skillName = models.CharField(max_length=50)
+
+class Skill(models.Model):
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, default=0)
+    skillDef = models.ForeignKey(SkillDef, on_delete=models.CASCADE, default=0)
+
+#temp table. Create new standard skill name for Skill table.
+class UndefinedSkill(models.Model):
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, default=0)
+
+    languageCode = models.CharField(max_length=2)
+    undefinedSkill = models.CharField(max_length=50)
+
+# -------- end providerprofile --------
+
+class CategoryDef(models.Model):
+    pass
+
+class CategoryDefTr(models.Model):
+    categoryDef = models.ForeignKey(CategoryDef, on_delete=models.CASCADE)
+
+    languageCode = models.CharField(max_length=2)
+    categoryName = models.CharField(max_length=50)
+
+class CategoryProvider(models.Model):
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    categoryDef = models.ForeignKey(CategoryDef, on_delete=models.CASCADE)
+
+class CategoryClient(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    categoryDef = models.ForeignKey(CategoryDef, on_delete=models.CASCADE)
 
 class Title(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
@@ -96,12 +106,12 @@ class TitleTr(models.Model):
 
 #no translation table is needed since client-provider will communicate via one language
 class Feedback(models.Model):
-    # This field is required.
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # The reviewer
+    user = models.ForeignKey(User)
 
     # Other fields here
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, blank=True, null=True)
+    provider = models.ForeignKey(Provider, blank=True, null=True)
     languageCode = models.CharField(max_length=2)
     feedback = models.CharField(max_length=400, blank=True, null=True)
     rate = models.IntegerField()
