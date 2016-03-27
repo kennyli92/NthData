@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
 
@@ -58,6 +58,8 @@ def login(request):
             user = authenticate(username=username, password=password)
 
             if user is not None:
+                loginUser = User.objects.get(username=username)
+                request.session['member_id'] = loginUser.id
                 return HttpResponseRedirect('signup/success')
             else:
                 return HttpResponse("No user of this username is found.")
