@@ -39,7 +39,7 @@ def signup(request):
             user.groups.add(group)
 
             # redirect to a new URL:
-            return HttpResponseRedirect('signup/success')
+            return HttpResponseRedirect('/account/signup/success')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -61,7 +61,8 @@ def mylogin(request):
 
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('signup/success')
+                return HttpResponseRedirect('/account/signup/success')
+
             else:
                 #return HttpResponse("The user name or password is incorrect.")
                 messages.error(request, 'The user name or password is incorrect.')
