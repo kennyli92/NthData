@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.template import RequestContext
 
 
 #def register(request):
@@ -46,7 +47,7 @@ def signup(request):
     
     return render(request, 'signup/signup.html', {'form': form})
 
-def login(request):
+def mylogin(request):
     # if this is a POST request we need to process the login form data
     if (request.method == 'POST') and ('login' in request.POST):
         form = LoginForm(request.POST)
@@ -56,12 +57,10 @@ def login(request):
             password = form.cleaned_data['password']
 
             #authenticate user
-            userExists = User.objects.get(username=username)
             user = authenticate(username=username, password=password)
 
             if user is not None:
-                loginUser = User.objects.get(username=username)
-                request.session['member_id'] = loginUser.id
+                login(request, user)
                 return HttpResponseRedirect('signup/success')
             else:
                 #return HttpResponse("The user name or password is incorrect.")
@@ -76,7 +75,7 @@ def login(request):
     
     return render(request, 'login/login.html', {'form': form})
 
-def logout(request):
+def mylogout(request):
     logout(request)
 
 def register_success(request):
