@@ -1,6 +1,6 @@
 ﻿from signup.forms import SignUpForm, LoginForm
 from signup.backends import EmailOrUsernameLogin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect, HttpResponse
@@ -61,7 +61,7 @@ def mylogin(request):
 
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/account/signup/success')
+                return redirect('/')
 
             else:
                 #return HttpResponse("The user name or password is incorrect.")
