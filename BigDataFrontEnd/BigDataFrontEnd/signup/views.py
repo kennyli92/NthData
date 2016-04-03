@@ -37,7 +37,7 @@ def signup(request):
             user.groups.add(group)
 
             # redirect to a new URL:
-            return HttpResponseRedirect('signup/success')
+            return HttpResponseRedirect('/account/signup/success')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -60,7 +60,7 @@ def login(request):
             if user is not None:
                 loginUser = User.objects.get(username=username)
                 request.session['member_id'] = loginUser.id
-                return HttpResponseRedirect('signup/success')
+                return HttpResponseRedirect('/account/signup/success')
             else:
                 return HttpResponse("No user of this username is found.")
     elif(request.method == 'POST') and ('signuppage' in request.POST):
