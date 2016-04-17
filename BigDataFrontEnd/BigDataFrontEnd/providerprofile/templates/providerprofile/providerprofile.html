@@ -2,7 +2,7 @@
 
 {% block content %}
 {% load staticfiles %}
-
+{% if user.is_authenticated %}
 <div class="row">
    <div class="col-md-4"></div>
    <div class="col-md-5">
@@ -91,19 +91,21 @@
             {% endif %}                 
             {% if field.name == 'skillsets' %}        
             <input type="text" placeholder="Separate skills by commas!" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"> 
-            {% endif %}  
-                                                    
+            {% endif %}                                                     
             </fieldset>
               {% if field.errors %}
             <div style="color:#b94a48">
                 {{ field.errors }}
             </div>    
              {% endif %} 
-        {% endfor %}        
+        {% endfor %}
+        <input type="hidden" name="username" value="{{user.username}}">        
         <input class="btn btn-default" type="submit" name="providerProfileUpdate" value="Submit" />
         </form>
     </div>
 </div>
+
+
 
 {% block scripts %}
 <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.10/jquery.popupoverlay.js"></script>
@@ -120,4 +122,11 @@
         $('#my_popup').popup('show');      
     }
 </script>
+
+{% else %}
+
+<h3>Please login!</h3>
+
+{% endif %}
+
 {% endblock %}
