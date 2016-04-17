@@ -29,14 +29,6 @@ class RateAgg(models.Model):
     ProviderRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
     ClientRateAgg = models.DecimalField(max_digits=3, decimal_places=2)
 
-class Language(models.Model):
-    pass
-
-class LanguageTr(models.Model):
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)
-
-    languageCode = models.CharField(max_length=2)
-    languageName = models.CharField(max_length=50) 
 
 # -------- clientprofile tables (placed in user.models due to circular dependencies, can't compile otherwise) --------
 
@@ -112,6 +104,19 @@ class TitleTr(models.Model):
 
     languageCode = models.CharField(max_length=2)
     titleName = models.CharField(max_length=50, blank=True, null=True)
+
+class LanguageDef(models.Model):
+    pass
+
+class LanguageDefTr(models.Model):
+    languageDef = models.ForeignKey(LanguageDef, on_delete=models.CASCADE)
+
+    languageCode = models.CharField(max_length=2)
+    languageName = models.CharField(max_length=50) 
+
+class Language(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    languageDef = models.ForeignKey(LanguageDef, on_delete=models.CASCADE, default=0)
 
 #no translation table is needed since client-provider will communicate via one language
 class Feedback(models.Model):
