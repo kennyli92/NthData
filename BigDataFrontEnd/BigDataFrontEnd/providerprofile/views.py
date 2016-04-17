@@ -19,7 +19,6 @@ def provider_profile(request):
         providerObj, created = Provider.objects.get_or_create(user=userObj)
         titleObj, created = Title.objects.get_or_create(provider=providerObj)
         titleTrObj = TitleTr.objects.create(title=titleObj, titleName=request.POST['title'])
-        titleTrObj.save();
 
         # Summary
         userProf, created = UserProfile.objects.get_or_create(user=userObj)
