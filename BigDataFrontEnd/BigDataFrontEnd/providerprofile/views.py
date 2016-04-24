@@ -45,6 +45,7 @@ def provider_profile(request):
         countryDefObj  = CountryDef.objects.get(id=countryDefTr.countryDef.id)
         locObj, created = Location.objects.update_or_create(user=userObj, defaults={'countryDef': countryDefObj})
 
+
        # locObj, created = Location.objects.update_or_create(user=userObj, countryDef=countryDefObj)
         
 
