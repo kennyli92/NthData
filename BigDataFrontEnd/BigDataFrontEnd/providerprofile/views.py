@@ -50,7 +50,7 @@ def provider_profile(request):
 
         return HttpResponseRedirect('/account/signup/success')
     else:
-        form = ProviderEditForm()
+        form = ProviderEditForm(request.user)
         return render(request, 'providerprofile/providerprofile.html', {'form': form})   
 
 def provider_dashboard(request):
