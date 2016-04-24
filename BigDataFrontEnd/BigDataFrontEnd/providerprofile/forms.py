@@ -4,32 +4,36 @@ from django.contrib.auth.models import User
 from user.models import UserProfile, Provider, Title, TitleTr, UserProfileTr, Skill, SkillDef, SkillDefTr
 from location.models import *
 
-def get_countries():
-    #userObj = User.objects.get(username=self.user)
-    #userProfileObj = UserProfile.objects.get(user = userObj)
-    #idx = 1
-    #country_list = ()
+def get_countries(self):
+    userObj = User.objects.get(username=self.user)
+    userProfileObj = UserProfile.objects.get(user = userObj)
+    idx = 1
 
-    #if(userProfileObj.isProvider):
-    #    location = Location.objects.get(user = userObj)
-    #    userCountry = CountryDefTr.objects.get(countryDef = location.countryDef)
-    #    country_list = country_list + ((idx, userCountry))
-    #    idx += 1
-    #    for country in CountryDefTr.objects.all():
-    #        if(userCountry != country):
-    #            country_list = country_list + ((idx, country))
-    #            idx += 1
-    #        else:
-    #            continue
-    #else:
-    #    for country in CountryDefTr.objects.all():
+    try:
+        location = Location.objects.get(user = userObj)
+        userCountry = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
+        country_list = ((idx, userCountry),)
+        idx += 1
+        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+            if(userCountry.country != countryObj.country):
+                country_list = country_list + ((idx, countryObj.country),)
+                idx += 1
+            else:
+                continue
+    except:
+        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+            if(idx == 1):
+                country_list = ((idx, countryObj.country),)
+            else:
+                country_list = country_list + ((idx, countryObj.country),)
+            idx += 1
             
-    country_list = (
-        ('1', 'USA'),
-        ('2', 'Canada'),
-        ('3', 'India'),
-        ('4', 'China')
-    )
+    #country_list = (
+    #    ('1', 'USA'),
+    #    ('2', 'Canada'),
+    #    ('3', 'India'),
+    #    ('4', 'China')
+    #)
 
     return country_list
 
@@ -111,12 +115,12 @@ def get_category_list():
 
 class ProviderEditForm(forms.Form):
     title = forms.CharField(label='Title', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=100)     
-    def __init__(self, *args, **kwargs):
-        #self.user = user
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super(ProviderEditForm, self).__init__(*args, **kwargs)
 
         self.fields['country'] = forms.ChoiceField(
-            choices=get_countries())
+            choices=get_countries(self))
         self.fields['language1'] = forms.ChoiceField(
             choices=get_languages())
         self.fields['language2'] = forms.ChoiceField(
