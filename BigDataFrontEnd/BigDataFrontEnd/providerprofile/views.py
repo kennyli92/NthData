@@ -23,8 +23,7 @@ def provider_profile(request):
 
         # Summary
         userProf, created = UserProfile.objects.get_or_create(user=userObj)
-        userProfTr, created = UserProfileTr.objects.get_or_create(userProfile=userProf, bioP=request.POST['summary'])
-        userProfTr.save();
+        userProfTr, created = UserProfileTr.objects.update_or_create(userProfile=userProf, defaults={'bioP': request.POST['summary']})
 
         # Skillset
         skillsetsStr = request.POST['skillsets']
@@ -40,7 +39,14 @@ def provider_profile(request):
 
             skillObj = Skill(provider = providerObj, skillDef = skillDefObj)
             skillObj.save()
+        
+        # Country
+        countryDefTr = CountryDefTr.objects.get(countryDef=request.POST['country'])
+        countryDefObj  = CountryDef.objects.get(id=countryDefTr.countryDef.id)
+        locObj, created = Location.objects.update_or_create(user=userObj, defaults={'countryDef': countryDefObj})
 
+       # locObj, created = Location.objects.update_or_create(user=userObj, countryDef=countryDefObj)
+        
 
         return HttpResponseRedirect('/account/signup/success')
     else:
