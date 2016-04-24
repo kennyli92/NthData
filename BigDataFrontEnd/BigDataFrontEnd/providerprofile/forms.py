@@ -12,7 +12,7 @@ def get_countries(self):
     try:
         location = Location.objects.get(user = userObj)
         userCountry = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
-        country_list = ((idx, userCountry),)
+        country_list = ((idx, userCountry.country),)
         idx += 1
         for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
             if(userCountry.country != countryObj.country):
