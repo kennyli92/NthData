@@ -41,7 +41,6 @@ def provider_profile(request):
             skillObj = Skill(provider = providerObj, skillDef = skillDefObj)
             skillObj.save()
 
-        #
 
         return HttpResponseRedirect('/account/signup/success')
     else:
