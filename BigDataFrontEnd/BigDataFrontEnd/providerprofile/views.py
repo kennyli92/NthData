@@ -32,7 +32,7 @@ def provider_profile(request):
         for skillset in skillsetsList:
             try:
                 skillDefTrObj = SkillDefTr.objects.get(languageCode = 'en', skillName = skillset.strip())
-                skillDefObj = SkillDef.objects.get(id = skillDefTrObj.skillDef)
+                skillDefObj = skillDefTrObj.skillDef
             except SkillDefTr.DoesNotExist:
                 skillDefObj = SkillDef.objects.create()
                 skillDefTrObj = SkillDefTr.objects.create(skillDef = skillDefObj, languageCode='en', skillName = skillset.strip())
