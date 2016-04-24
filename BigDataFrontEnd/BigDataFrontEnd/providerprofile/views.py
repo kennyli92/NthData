@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from user.models import UserProfile, Provider, Title, TitleTr, UserProfileTr, Skill, SkillDef, SkillDefTr
+from location.models import CountryDef, CountryDefTr, Location
 
 
 def provider_profile(request):

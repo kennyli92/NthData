@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 # user app
-
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
