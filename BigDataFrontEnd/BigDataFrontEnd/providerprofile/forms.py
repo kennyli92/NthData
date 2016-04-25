@@ -1,7 +1,7 @@
 ﻿from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from user.models import UserProfile, Provider, Title, TitleTr, UserProfileTr, Skill, SkillDef, SkillDefTr
+from user.models import *
 from location.models import *
 
 def get_countries(self):
@@ -27,15 +27,19 @@ def get_countries(self):
             else:
                 country_list = country_list + ((idx, countryObj.country),)
             idx += 1
-            
-    #country_list = (
-    #    ('1', 'USA'),
-    #    ('2', 'Canada'),
-    #    ('3', 'India'),
-    #    ('4', 'China')
-    #)
 
     return country_list
+
+def get_title(self):
+    userObj = User.objects.get(username=self.user)
+    try:
+        providerObj = Provider.objects.get(user=userObj)
+        titleObj = Title.objects.get(provider=providerObj)
+        titleTrObj = TitleTr.objects.get(title=titleObj, languageCode='en')
+        title = titleTrObj.titleName
+    except:
+        title = ''
+    return title
 
 def get_languages():
     
@@ -114,11 +118,25 @@ def get_category_list():
     return category_list
 
 class ProviderEditForm(forms.Form):
-    title = forms.CharField(label='Title', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=100)     
+    #title = forms.CharField(label='Title', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=100)     
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(ProviderEditForm, self).__init__(*args, **kwargs)
-
+        self.fields['title'] = forms.CharField(
+            label='Title (' + get_title(self) + ')',
+            label_suffix='',
+            widget=forms.TextInput(attrs={'class':'form-control'}),
+            max_length=100)
+        self.fields['summary'] = forms.CharField(
+            label='Summary', 
+            label_suffix='',
+            widget=forms.TextInput(attrs={'class':'form-control'}), 
+            max_length=300)
+        self.fields['skillsets'] = forms.CharField(
+            label='Skillsets', 
+            label_suffix='',
+            widget=forms.TextInput(attrs={'class':'form-control'}), 
+            max_length=300)
         self.fields['country'] = forms.ChoiceField(
             choices=get_countries(self))
         self.fields['language1'] = forms.ChoiceField(
@@ -133,8 +151,6 @@ class ProviderEditForm(forms.Form):
             choices=get_category_list_with_none())
         self.fields['categories3'] = forms.ChoiceField(
             choices=get_category_list_with_none())
-    summary = forms.CharField(label='Summary', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=300)
-    skillsets = forms.CharField(label='Skillsets', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=300)
    
    
 

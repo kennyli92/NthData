@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from user.models import UserProfile, Provider, Title, TitleTr, UserProfileTr, Skill, SkillDef, SkillDefTr
 from location.models import CountryDef, CountryDefTr, Location
+from django.core.urlresolvers import reverse
 
 
 def provider_profile(request):
@@ -19,7 +20,7 @@ def provider_profile(request):
   
         # Title          
         titleObj, created = Title.objects.get_or_create(provider=providerObj)
-        titleTrObj = TitleTr.objects.create(title=titleObj, titleName=request.POST['title'])
+        titleTrObj, created = TitleTr.objects.update_or_create(title=titleObj, defaults={'titleName': request.POST['title']}, languageCode='en')
 
         # Summary
         userProf, created = UserProfile.objects.get_or_create(user=userObj)
@@ -48,8 +49,8 @@ def provider_profile(request):
 
        # locObj, created = Location.objects.update_or_create(user=userObj, countryDef=countryDefObj)
         
-
-        return HttpResponseRedirect('/account/signup/success')
+       # Doesn't recognize whether or not user is logged in because 'request' is not passed on to this page...use render
+        return HttpResponseRedirect('/account/signup/success') # render(request, reverse('registerSuccess'))
     else:
         form = ProviderEditForm(request.user)
         return render(request, 'providerprofile/providerprofile.html', {'form': form})   
