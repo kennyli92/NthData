@@ -41,6 +41,34 @@ def get_title(self):
         title = ''
     return title
 
+def get_skillsets(self):
+    userObj = User.objects.get(username=self.user)
+    skillsets = ''
+    try:
+        providerObj = Provider.objects.get(user=userObj)
+        skillObj = Skill.objects.all().filter(provider=providerObj)
+    
+        for skill in skillObj:
+            skillsets = skillsets + SkillDefTr.objects.get(skillDef=skill.skillDef, languageCode='en').skillName + ', '
+
+        skillsets = skillsets[:-2]
+    except:
+        return skillsets
+
+    return skillsets
+
+def get_summary(self):
+    userObj = User.objects.get(username=self.user)
+    try:
+        userProfObj = UserProfile.objects.get(user=userObj)
+        userProfTrObj = UserProfileTr.objects.get(userProfile=userProfObj)
+        summary = userProfTrObj.bioP.strip()
+    except:
+        summary = ''
+
+    return summary
+
+
 def get_languages():
     
     language_list = (
@@ -123,16 +151,19 @@ class ProviderEditForm(forms.Form):
         self.user = user
         super(ProviderEditForm, self).__init__(*args, **kwargs)
         self.fields['title'] = forms.CharField(
-            label='Title (' + get_title(self) + ')',
+            initial=get_title(self),
+            label='Title',
             label_suffix='',
             widget=forms.TextInput(attrs={'class':'form-control'}),
             max_length=100)
         self.fields['summary'] = forms.CharField(
+            initial=get_summary(self),
             label='Summary', 
             label_suffix='',
             widget=forms.TextInput(attrs={'class':'form-control'}), 
             max_length=300)
         self.fields['skillsets'] = forms.CharField(
+            initial=get_skillsets(self),
             label='Skillsets', 
             label_suffix='',
             widget=forms.TextInput(attrs={'class':'form-control'}), 

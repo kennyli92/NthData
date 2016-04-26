@@ -20,22 +20,22 @@
          {% for field in form %}
             <fieldset class="form-group">
                 {% if field.name == 'language1' %}
-                 <label class="control-label" for="id_{{ field.name }}">Language 1:</label>
+                    <label class="control-label" for="id_{{ field.name }}">Language 1:</label>
                 {% elif field.name == 'language2' %}
-                 <label class="control-label" for="id_{{ field.name }}">Language 2:</label>
+                    <label class="control-label" for="id_{{ field.name }}">Language 2:</label>
                 {% elif field.name == 'language3' %}
-                <label class="control-label" for="id_{{ field.name }}">Language 3:</label>
+                    <label class="control-label" for="id_{{ field.name }}">Language 3:</label>
                 {% elif field.name == 'categories1' %}
-                <label class="control-label" for="id_{{ field.name }}">Category 1:</label>
+                    <label class="control-label" for="id_{{ field.name }}">Category 1:</label>
                  {% elif field.name == 'categories2' %}
-                <label class="control-label" for="id_{{ field.name }}">Category 2:</label>
-                 {% elif field.name == 'categories3' %}
-                <label class="control-label" for="id_{{ field.name }}">Category 3:</label>
+                    <label class="control-label" for="id_{{ field.name }}">Category 2:</label>
+                {% elif field.name == 'categories3' %}
+                    <label class="control-label" for="id_{{ field.name }}">Category 3:</label>
                 {% else %}
-                 <label class="control-label" for="id_{{ field.name }}">{{ field.label }}:</label>
+                    <label class="control-label" for="id_{{ field.name }}">{{ field.label }}:</label>
                 {% endif %}          
                 {% if field.name == 'title' %}        
-            <input type="text" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"> 
+                    <input type="text" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}" value="{{ form.fields.title.initial }}"> 
                 {% endif %}      
                 {% if field.name == 'country' %}        
                     <select id="id_{{field.name}}" name="{{ field.name }}">
@@ -87,10 +87,12 @@
                     </select>
                 {% endif %}
             {% if field.name == 'summary' %}        
-            <textarea type="text" rows="3" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"></textarea>
+                <textarea type="text" rows="3" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}">
+                    {{ form.fields.summary.initial }}
+                </textarea>
             {% endif %}                 
             {% if field.name == 'skillsets' %}        
-            <input type="text" placeholder="Separate skills by commas!" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}"> 
+                <input type="text" placeholder="Separate skills by commas!" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}" value="{{ form.fields.skillsets.initial }}"> 
             {% endif %}                                                     
             </fieldset>
               {% if field.errors %}
