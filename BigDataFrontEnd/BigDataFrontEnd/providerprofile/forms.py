@@ -4,32 +4,6 @@ from django.contrib.auth.models import User
 from user.models import *
 from location.models import *
 
-def get_countries(self):
-    userObj = User.objects.get(username=self.user)
-    userProfileObj = UserProfile.objects.get(user = userObj)
-    idx = 1
-
-    try:
-        location = Location.objects.get(user = userObj)
-        userCountry = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
-        country_list = ((idx, userCountry.country),)
-        idx += 1
-        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
-            if(userCountry.country != countryObj.country):
-                country_list = country_list + ((idx, countryObj.country),)
-                idx += 1
-            else:
-                continue
-    except:
-        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
-            if(idx == 1):
-                country_list = ((idx, countryObj.country),)
-            else:
-                country_list = country_list + ((idx, countryObj.country),)
-            idx += 1
-
-    return country_list
-
 def get_title(self):
     userObj = User.objects.get(username=self.user)
     try:
@@ -68,82 +42,79 @@ def get_summary(self):
 
     return summary
 
+def get_countries(self):
+    userObj = User.objects.get(username=self.user)
+    userProfileObj = UserProfile.objects.get(user = userObj)
+    idx = 1
 
-def get_languages():
-    
-    language_list = (
-        ('1', 'English'),
-        ('2', 'Mandarin'),
-        ('3', 'Spanish'),
-        ('4', 'Russian')
-    )
+    try:
+        location = Location.objects.get(user = userObj)
+        userCountryObj = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
+        country_list = ((idx, userCountryObj.country),)
+        idx += 1
+        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+            if(userCountryObj.country != countryObj.country):
+                country_list = country_list + ((idx, countryObj.country),)
+                idx += 1
+            else:
+                continue
+    except:
+        country_list = ((0, ''),)
+        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+            country_list = country_list + ((idx, countryObj.country),)
+            idx += 1
+
+    return country_list
+
+#num = user's language priority
+def get_languages(self, num):
+    userObj = User.objects.get(username=self.user)
+    idx = 1
+
+    try:
+        langObj = Language.objects.get(user=userObj, languageNum=num)
+        userLangObj = LanguageDefTr.objects.get(languageDef=langObj.languageDef, languageCode = 'en')
+        language_list = ((idx, userLangObj.languageName),)
+        idx += 1
+        for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
+            if(userLangObj.languageName != langDefTr.languageName):
+                language_list = language_list + ((idx, langDefTrObj.languageName),)
+                idx += 1
+            else:
+                continue
+    except:
+        language_list = ((0, ''),)
+        for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
+            language_list = language_list + ((idx, langDefTrObj.languageName),)
+            idx += 1
+
     return language_list
 
-def get_languages_with_none():
+# num = user's category priority
+def get_categories(self, num):
+    userObj = User.objects.get(username=self.user)
+    idx = 1
 
-    language_list_with_none = (
-        ('1', 'None'),
-        ('2', 'English'),
-        ('3', 'Mandarin'),
-        ('4', 'Spanish'),
-        ('5', 'Russian')
-    )
-    return language_list_with_none
+    try:
+        providerObj = Provider.objects.get(user=userObj)
+        catObj = CategoryProvider.objects.get(provider=providerObj, categoryNum=num)
+        userCatObj = CategoryDefTr.objects.get(categoryDef=catObj.categoryDef, languageCode='en')
+        category_list = ((idx, userCatObj.categoryName),)
+        idx += 1
+        for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
+            if(userCatObj.categoryName != catDefTrObj.categoryName):
+                category_list = category_list + ((idx, catDefTrObj.categoryName),)
+                idx += 1
+            else:
+                continue
+    except:
+        category_list = ((0, ''),)
+        for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
+            category_list = category_list + ((idx, catDefTrObj.categoryName),)
+            idx += 1
 
-def get_category_list_with_none():
-    category_list_with_none = (
-        ('0', 'None'),
-        ('1', 'Web Programming'),
-        ('2', 'Wordpress'),
-        ('3', 'Mobile Dev'),
-        ('4', 'Website builders & CMS'),
-        ('5', 'UI/UX Design'),
-        ('6', 'Convert Files'),
-        ('7', 'Ecommerce'),
-        ('8', 'User Testing'),
-        ('9', 'Quality Assurance'),
-        ('10', 'Databases'),
-        ('11', 'Desktop App'),
-        ('12', 'Data Science'),
-        ('13', 'Technical Analysis'),
-        ('14', 'IT Support'),
-        ('15', 'Network'),
-        ('16', 'Security'),
-        ('17', 'Systems Administration'),
-        ('18', 'Architecture'),
-        ('19', 'Cloud'),
-        ('20', 'Dev Ops'),
-        ('21', 'IT Project Management'),
-        ('22', 'Big Data'),
-    )
-    return category_list_with_none
-
-def get_category_list():
-    category_list = (
-    ('1', 'Web Programming'),
-    ('2', 'Wordpress'),
-    ('3', 'Mobile Dev'),
-    ('4', 'Website builders & CMS'),
-    ('5', 'UI/UX Design'),
-    ('6', 'Convert Files'),
-    ('7', 'Ecommerce'),
-    ('8', 'User Testing'),
-    ('9', 'Quality Assurance'),
-    ('10', 'Databases'),
-    ('11', 'Desktop App'),
-    ('12', 'Data Science'),
-    ('13', 'Technical Analysis'),
-    ('14', 'IT Support'),
-    ('15', 'Network'),
-    ('16', 'Security'),
-    ('17', 'Systems Administration'),
-    ('18', 'Architecture'),
-    ('19', 'Cloud'),
-    ('20', 'Dev Ops'),
-    ('21', 'IT Project Management'),
-    ('22', 'Big Data'),
-)
     return category_list
+
 
 class ProviderEditForm(forms.Form):
     #title = forms.CharField(label='Title', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=100)     
@@ -171,17 +142,17 @@ class ProviderEditForm(forms.Form):
         self.fields['country'] = forms.ChoiceField(
             choices=get_countries(self))
         self.fields['language1'] = forms.ChoiceField(
-            choices=get_languages())
+            choices=get_languages(self, 1))
         self.fields['language2'] = forms.ChoiceField(
-            choices=get_languages_with_none())
+            choices=get_languages(self, 2))
         self.fields['language3'] = forms.ChoiceField(
-            choices=get_languages_with_none())
+            choices=get_languages(self, 3))
         self.fields['categories1'] = forms.ChoiceField(
-            choices=get_category_list())
+            choices=get_categories(self, 1))
         self.fields['categories2'] = forms.ChoiceField(
-            choices=get_category_list_with_none())
+            choices=get_categories(self, 2))
         self.fields['categories3'] = forms.ChoiceField(
-            choices=get_category_list_with_none())
+            choices=get_categories(self, 3))
    
    
 

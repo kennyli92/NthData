@@ -11,41 +11,12 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.template import RequestContext
+from user.models import UserProfile, UserProfileTr
 
 
 #def register(request):
 #    form = SignUpForm()
 #    return render(request, 'signup/signup.html', {'form': form})
-
-
-def signup(request):
-    # if this is a POST request we need to process the sign up form data
-    if (request.method == 'POST') and ('signup' in request.POST):
-        # create a form instance and populate it with data from the request:
-        form = SignUpForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required           
-            user = User.objects.create_user(
-            username = form.cleaned_data['username'],
-            password = form.cleaned_data['password'],
-            email = form.cleaned_data['email'],
-            first_name = form.cleaned_data['first_name'],
-            last_name = form.cleaned_data['last_name']
-            )
-            
-            # add to 'user' group
-            group = Group.objects.get(name='user')
-            user.groups.add(group)
-
-            # redirect to a new URL:
-            return HttpResponseRedirect('/account/signup/success')
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = SignUpForm()
-    
-    return render(request, 'signup/signup.html', {'form': form})
 
 def mylogin(request):
     # if this is a POST request we need to process the login form data
@@ -75,6 +46,45 @@ def mylogin(request):
         form = LoginForm()
     
     return render(request, 'login/login.html', {'form': form})
+
+def signup(request):
+    # if this is a POST request we need to process the sign up form data
+    if (request.method == 'POST') and ('signup' in request.POST):
+        # create a form instance and populate it with data from the request:
+        form = SignUpForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required           
+            userObj = User.objects.create_user(
+            username = form.cleaned_data['username'],
+            password = form.cleaned_data['password'],
+            email = form.cleaned_data['email'],
+            first_name = form.cleaned_data['first_name'],
+            last_name = form.cleaned_data['last_name']
+            )
+            
+            # add to 'user' group
+            group = Group.objects.get(name='user')
+            userObj.groups.add(group)
+
+            # creates user's profile
+            userProfObj = UserProfile(user=userObj)
+            userProfObj.save()
+            userProfTrObj = UserProfileTr(userProfile=userProfObj)
+            userProfTrObj.save()
+
+            #automatically authenticate and login user after sign up
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SignUpForm()
+    
+    return render(request, 'signup/signup.html', {'form': form})
 
 def mylogout(request):
     logout(request)

@@ -89,10 +89,12 @@ class CategoryDefTr(models.Model):
 class CategoryProvider(models.Model):
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     categoryDef = models.ForeignKey(CategoryDef, on_delete=models.CASCADE)
+    categoryNum = models.IntegerField(default=1)
 
 class CategoryClient(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     categoryDef = models.ForeignKey(CategoryDef, on_delete=models.CASCADE)
+    categoryNum = models.IntegerField(default=1)
 
 class Title(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
@@ -116,6 +118,7 @@ class LanguageDefTr(models.Model):
 class Language(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     languageDef = models.ForeignKey(LanguageDef, on_delete=models.CASCADE, default=0)
+    languageNum = models.IntegerField(default=1)
 
 #no translation table is needed since client-provider will communicate via one language
 class Feedback(models.Model):
