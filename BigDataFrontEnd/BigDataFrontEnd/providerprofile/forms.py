@@ -45,73 +45,72 @@ def get_summary(self):
 def get_countries(self):
     userObj = User.objects.get(username=self.user)
     userProfileObj = UserProfile.objects.get(user = userObj)
-    idx = 1
 
     try:
         location = Location.objects.get(user = userObj)
         userCountryObj = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
-        country_list = ((idx, userCountryObj.country),)
-        idx += 1
+        country_list = ((userCountryObj.id, userCountryObj.country),)
         for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
             if(userCountryObj.country != countryObj.country):
-                country_list = country_list + ((idx, countryObj.country),)
-                idx += 1
+                country_list = country_list + ((countryObj.id, countryObj.country),)
             else:
                 continue
     except:
-        country_list = ((0, ''),)
+        country_list = ()
         for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
-            country_list = country_list + ((idx, countryObj.country),)
-            idx += 1
+            if(countryObj.country == ''):
+                country_list = ((countryObj.id, countryObj.country),) + country_list
+            else:
+                country_list = country_list + ((countryObj.id, countryObj.country),)
 
     return country_list
 
 #num = user's language priority
 def get_languages(self, num):
     userObj = User.objects.get(username=self.user)
-    idx = 1
 
     try:
         langObj = Language.objects.get(user=userObj, languageNum=num)
         userLangObj = LanguageDefTr.objects.get(languageDef=langObj.languageDef, languageCode = 'en')
-        language_list = ((idx, userLangObj.languageName),)
-        idx += 1
+        language_list = ((userLangObj.id, userLangObj.languageName),)
+        
         for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
-            if(userLangObj.languageName != langDefTr.languageName):
-                language_list = language_list + ((idx, langDefTrObj.languageName),)
-                idx += 1
+            if(userLangObj.languageName != langDefTrObj.languageName):
+                language_list = language_list + ((langDefTrObj.id, langDefTrObj.languageName),)
             else:
                 continue
     except:
-        language_list = ((0, ''),)
+        language_list = ()
         for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
-            language_list = language_list + ((idx, langDefTrObj.languageName),)
-            idx += 1
+            if(langDefTrObj.languageName == ''):
+                language_list = ((langDefTrObj.id, langDefTrObj.languageName),) + language_list
+            else:
+                language_list = language_list + ((langDefTrObj.id, langDefTrObj.languageName),)
 
     return language_list
 
 # num = user's category priority
 def get_categories(self, num):
     userObj = User.objects.get(username=self.user)
-    idx = 1
 
     try:
         providerObj = Provider.objects.get(user=userObj)
         catObj = CategoryProvider.objects.get(provider=providerObj, categoryNum=num)
         userCatObj = CategoryDefTr.objects.get(categoryDef=catObj.categoryDef, languageCode='en')
-        category_list = ((idx, userCatObj.categoryName),)
-        idx += 1
+        category_list = ((userCatObj.id, userCatObj.categoryName),)
+   
         for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
             if(userCatObj.categoryName != catDefTrObj.categoryName):
-                category_list = category_list + ((idx, catDefTrObj.categoryName),)
-                idx += 1
+                category_list = category_list + ((catDefTrObj.id, catDefTrObj.categoryName),)
             else:
                 continue
     except:
-        category_list = ((0, ''),)
+        category_list = ()
         for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
-            category_list = category_list + ((idx, catDefTrObj.categoryName),)
-            idx += 1
+            if(catDefTrObj.categoryName == ''):
+                category_list = ((catDefTrObj.id, catDefTrObj.categoryName),) + category_list
+            else:
+                category_list = category_list + ((catDefTrObj.id, catDefTrObj.categoryName),)
 
     return category_list
 
