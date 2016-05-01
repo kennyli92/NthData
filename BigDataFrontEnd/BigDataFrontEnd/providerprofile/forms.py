@@ -20,7 +20,7 @@ def get_skillsets(self):
     skillsets = ''
     try:
         providerObj = Provider.objects.get(user=userObj)
-        skillObj = Skill.objects.all().filter(provider=providerObj)
+        skillObj = Skill.objects.filter(provider=providerObj).order_by('skillNum')
     
         for skill in skillObj:
             skillsets = skillsets + SkillDefTr.objects.get(skillDef=skill.skillDef, languageCode='en').skillName + ', '
@@ -86,7 +86,7 @@ def get_languages(self, num):
                 language_list = ((langDefTrObj.id, langDefTrObj.languageName),) + language_list
             else:
                 language_list = language_list + ((langDefTrObj.id, langDefTrObj.languageName),)
-
+    
     return language_list
 
 # num = user's category priority

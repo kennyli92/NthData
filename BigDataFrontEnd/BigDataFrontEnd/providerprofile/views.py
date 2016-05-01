@@ -29,25 +29,28 @@ def provider_profile(request):
         # Skillset
         skillsetsStr = request.POST['skillsets']
         
-        if(skillsetsStr is not None):
-            skillsetsList = skillsetsStr.split(',')
+        if(skillsetsStr != ''):
+            skillsetsList = set(skillsetsStr.split(','))
+            curSkillsetCnt = Skill.objects.filter(provider=providerObj).count()
+            skillsetsLen = len(skillsetsList)
+            skillNum = 1
+            #if current skillsets count is greater than passed-in skillsets count, delete 
+            #all skills of user above passed-in skillsets count
+            if(skillsetsLen < curSkillsetCnt):
+                Skill.objects.filter(provider=providerObj, skillNum__gt = skillsetsLen).delete()
+            
             for skillset in skillsetsList:
                 try:
+                    #Find if existing skillset exists in definition table
                     skillDefTrObj = SkillDefTr.objects.get(languageCode = 'en', skillName = skillset.strip())
-                    skillDefObj = skillDefTrObj.skillDef
-                    #if skill already exists for user, continue with next iteration
-                    skillExistObj = Skill.objects.get(provider=providerObj, skillDef=skillDefObj)
-                    continue
-                except Skill.DoesNotExist:
-                    #if skill does not exist for user, create new entry for user
-                    pass
                 except SkillDefTr.DoesNotExist:
+                    #Create new skillset definition if it doesn't exist
                     skillDefObj = SkillDef.objects.create()
                     skillDefTrObj = SkillDefTr.objects.create(skillDef = skillDefObj, languageCode='en', skillName = skillset.strip())
                     skillDefTrObj.save()
 
-                skillObj = Skill(provider = providerObj, skillDef = skillDefObj)
-                skillObj.save()
+                skillObj, created = Skill.objects.update_or_create(provider = providerObj, defaults={'skillDef': skillDefTrObj.skillDef}, skillNum = skillNum)
+                skillNum += 1
         #if skillset list is empty, delete all skills related to provider
         else:
             Skill.objects.all().filter(provider=providerObj).delete()
