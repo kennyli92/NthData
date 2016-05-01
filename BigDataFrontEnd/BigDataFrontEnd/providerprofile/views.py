@@ -30,7 +30,8 @@ def provider_profile(request):
         skillsetsStr = request.POST['skillsets']
         
         if(skillsetsStr != ''):
-            skillsetsList = set(skillsetsStr.split(','))
+            #remove extra space and delete spaces that may be misrecognized as a valid skill
+            skillsetsList = set(''.join(skillsetsStr.split(',')).split())
             curSkillsetCnt = Skill.objects.filter(provider=providerObj).count()
             skillsetsLen = len(skillsetsList)
             skillNum = 1
@@ -53,7 +54,7 @@ def provider_profile(request):
                 skillNum += 1
         #if skillset list is empty, delete all skills related to provider
         else:
-            Skill.objects.all().filter(provider=providerObj).delete()
+            Skill.objects.filter(provider=providerObj).delete()
         
         # Country
         countryDefTrObj = CountryDefTr.objects.get(id=request.POST['country'], languageCode='en')
