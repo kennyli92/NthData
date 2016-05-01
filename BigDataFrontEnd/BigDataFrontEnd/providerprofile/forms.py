@@ -118,6 +118,7 @@ def get_categories(self, num):
 class ProviderEditForm(forms.Form):
     #title = forms.CharField(label='Title', label_suffix='',widget=forms.TextInput(attrs={'class':'form-control'}), max_length=100)     
     def __init__(self, user, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
         self.user = user
         super(ProviderEditForm, self).__init__(*args, **kwargs)
         self.fields['title'] = forms.CharField(
@@ -128,8 +129,8 @@ class ProviderEditForm(forms.Form):
             max_length=100)
         self.fields['summary'] = forms.CharField(
             initial=get_summary(self),
-            label='Summary', 
             label_suffix='',
+            label='Summary', 
             widget=forms.TextInput(attrs={'class':'form-control'}), 
             max_length=300)
         self.fields['skillsets'] = forms.CharField(

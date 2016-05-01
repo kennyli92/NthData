@@ -3,9 +3,17 @@
 {% block content %}
 {% load staticfiles %}
 {% if user.is_authenticated %}
+<style>
+    .form-group {
+    width: 100%;
+}
+    #id_title {
+        width: 250px;
+    }
+</style>
 <div class="row">
-   <div class="col-md-4"></div>
-   <div class="col-md-5">
+<div class="col-md-3"></div>     
+<div class="col-md-6">
        <h2>Provider Profile</h2>
      <div id="my_popup">
         <img style="width: 125px; height: 125px;" src="{% static "ajax_loader_blue_512.gif" %}" />
@@ -18,7 +26,7 @@
             {% endif %}         
          {% csrf_token %} 
          {% for field in form %}
-            <fieldset class="form-group">
+            <fieldset class="form-group" id="{{field.name}}">
                 {% if field.name == 'language1' %}
                     <label class="control-label" for="id_{{ field.name }}">Language 1:</label>
                 {% elif field.name == 'language2' %}
@@ -107,8 +115,6 @@
     </div>
 </div>
 
-
-
 {% block scripts %}
 <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.10/jquery.popupoverlay.js"></script>
 {% endblock %}
@@ -116,14 +122,106 @@
  <script>
     $(document).ready(function() {
       // Initialize the plugin
-      $('#my_popup').popup();
+        $('#my_popup').popup();
+
+        // List of possible IDs
+        languageIds = [1,2,3,4] //To-do: Inject from database here!
+
+        // Hide language 2 and 3 selectors
+        $("#language2").hide();       
+        $("#language3").hide();
+        
+
+        // Keep track of language 1 selector and display lannguage 2 selector
+        $("#id_language1").change(function () {
+
+            if ($(this).val() in languageIds) {            
+                $("#language2").show();
+            }
+            if ($(this).val() == 5) {
+                $("#language2").hide();
+               
+            }       
+        });
+
+        //var previousLanguage1;
+        //$("#id_language1").on('focus', function () {
+        //    // Store the current value on focus and on change
+        //    previousLanguage1 = $(this).val();
+        //}).change(function () {
+        //    // Do something with the previous value after the change
+        //    if ($(this).val() in languageIds) {
+        //        $("#language2 option[value=" + $(this).val() + "]").hide();
+        //        $("#language2 option[value=" + previousLanguage1 + "]").show();
+        //            $("#language2").show();
+        //        }
+        //        if ($(this).val() == 5) {
+        //            $("#language2").hide();
+        //            $("#language2 option[value=" + previousLanguage1 + "]").show();
+        //        }  
+        //    // Make sure the previous value is updated
+        //     previousLanguage1 = $(this).val();
+        //});
+
+
+
+        // Keep track of language 2 selector and display lannguage 3 selector
+        $("#id_language2").change(function () {
+
+            if ($(this).val() == 1 || $(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4) {
+                $("#language3").show();
+            }
+            if ($(this).val() == 5) {
+                $("#language3").hide();
+            }
+        });
+
+        // ######## Hide category functions ########
+
+        // List of possible IDs
+        categoryIds = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22] // To-do: Inject from database here!
+    
+        // Hide categories 2 and 3 selectors
+        $("#categories2").hide();
+        $("#categories3").hide();
+
+
+        // Keep track of categories 1 selector and display categories 2 selector
+        $("#id_categories1").change(function () {
+
+            if ($(this).val() in categoryIds) {
+                $("#categories2").show();
+            }
+            if ($(this).val() == 23) {
+                $("#categories2").hide();
+            }
+        });
+
+        // Keep track of categories 2 selector and display categories 3 selector
+        $("#id_categories2").change(function () {
+
+            if ($(this).val() in categoryIds) {
+                $("#categories3").show();
+            }
+            if ($(this).val() == 23) {
+                $("#categories3").hide();
+            }
+        });
+
+
     });
-  </script>
-<script>
+
+    
+
+
     function myFunction() {     
         $('#my_popup').popup('show');      
     }
+
+ 
+
 </script>
+
 
 {% else %}
 

@@ -30,7 +30,7 @@ def provider_profile(request):
         skillsetsStr = request.POST['skillsets']
         
         if(skillsetsStr is not None):
-            skillsetsList = skillsetsStr.split(',')
+            skillsetsList = set(skillsetsStr.split(','))
             for skillset in skillsetsList:
                 try:
                     skillDefTrObj = SkillDefTr.objects.get(languageCode = 'en', skillName = skillset.strip())
