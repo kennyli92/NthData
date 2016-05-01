@@ -67,6 +67,7 @@ class SkillDefTr(models.Model):
 class Skill(models.Model):
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE, default=0)
     skillDef = models.ForeignKey(SkillDef, on_delete=models.CASCADE, default=0)
+    skillNum = models.IntegerField(default=1)
 
 #temp table. Create new standard skill name for Skill table.
 class UndefinedSkill(models.Model):

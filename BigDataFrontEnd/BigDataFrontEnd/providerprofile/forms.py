@@ -20,7 +20,7 @@ def get_skillsets(self):
     skillsets = ''
     try:
         providerObj = Provider.objects.get(user=userObj)
-        skillObj = Skill.objects.all().filter(provider=providerObj)
+        skillObj = Skill.objects.filter(provider=providerObj).order_by('skillNum')
     
         for skill in skillObj:
             skillsets = skillsets + SkillDefTr.objects.get(skillDef=skill.skillDef, languageCode='en').skillName + ', '
@@ -50,14 +50,14 @@ def get_countries(self):
         location = Location.objects.get(user = userObj)
         userCountryObj = CountryDefTr.objects.get(countryDef = location.countryDef, languageCode = 'en')
         country_list = ((userCountryObj.id, userCountryObj.country),)
-        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+        for countryObj in CountryDefTr.objects.filter(languageCode='en'):
             if(userCountryObj.country != countryObj.country):
                 country_list = country_list + ((countryObj.id, countryObj.country),)
             else:
                 continue
     except:
         country_list = ()
-        for countryObj in CountryDefTr.objects.all().filter(languageCode='en'):
+        for countryObj in CountryDefTr.objects.filter(languageCode='en'):
             if(countryObj.country == ''):
                 country_list = ((countryObj.id, countryObj.country),) + country_list
             else:
@@ -74,19 +74,19 @@ def get_languages(self, num):
         userLangObj = LanguageDefTr.objects.get(languageDef=langObj.languageDef, languageCode = 'en')
         language_list = ((userLangObj.id, userLangObj.languageName),)
         
-        for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
+        for langDefTrObj in LanguageDefTr.objects.filter(languageCode='en'):
             if(userLangObj.languageName != langDefTrObj.languageName):
                 language_list = language_list + ((langDefTrObj.id, langDefTrObj.languageName),)
             else:
                 continue
     except:
         language_list = ()
-        for langDefTrObj in LanguageDefTr.objects.all().filter(languageCode='en'):
+        for langDefTrObj in LanguageDefTr.objects.filter(languageCode='en'):
             if(langDefTrObj.languageName == ''):
                 language_list = ((langDefTrObj.id, langDefTrObj.languageName),) + language_list
             else:
                 language_list = language_list + ((langDefTrObj.id, langDefTrObj.languageName),)
-
+    
     return language_list
 
 # num = user's category priority
@@ -99,14 +99,14 @@ def get_categories(self, num):
         userCatObj = CategoryDefTr.objects.get(categoryDef=catObj.categoryDef, languageCode='en')
         category_list = ((userCatObj.id, userCatObj.categoryName),)
    
-        for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
+        for catDefTrObj in CategoryDefTr.objects.filter(languageCode='en'):
             if(userCatObj.categoryName != catDefTrObj.categoryName):
                 category_list = category_list + ((catDefTrObj.id, catDefTrObj.categoryName),)
             else:
                 continue
     except:
         category_list = ()
-        for catDefTrObj in CategoryDefTr.objects.all().filter(languageCode='en'):
+        for catDefTrObj in CategoryDefTr.objects.filter(languageCode='en'):
             if(catDefTrObj.categoryName == ''):
                 category_list = ((catDefTrObj.id, catDefTrObj.categoryName),) + category_list
             else:

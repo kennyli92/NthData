@@ -24,7 +24,7 @@ def mylogin(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['username'].lower()
             password = form.cleaned_data['password']
 
             #authenticate user
@@ -56,9 +56,9 @@ def signup(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required           
             userObj = User.objects.create_user(
-            username = form.cleaned_data['username'],
+            username = form.cleaned_data['username'].lower(),
             password = form.cleaned_data['password'],
-            email = form.cleaned_data['email'],
+            email = form.cleaned_data['email'].lower(),
             first_name = form.cleaned_data['first_name'],
             last_name = form.cleaned_data['last_name']
             )
@@ -74,7 +74,7 @@ def signup(request):
             userProfTrObj.save()
 
             #automatically authenticate and login user after sign up
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            user = authenticate(username=form.cleaned_data['username'].lower(), password=form.cleaned_data['password'])
 
             if user is not None:
                 login(request, user)
